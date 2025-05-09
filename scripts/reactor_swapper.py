@@ -57,9 +57,6 @@ if DEVICE == "CUDA":
 else:
     PROVIDERS = ["CPUExecutionProvider"]
 
-NSFWDET_MODEL_PATH = os.path.join(models_path, "nsfw_detector","vit-base-nsfw-detector")
-check_nsfwdet_model(NSFWDET_MODEL_PATH)
-
 @dataclass
 class EnhancementOptions:
     do_restore_first: bool = True
@@ -356,10 +353,7 @@ def check_sfw_image(img: Image.Image):
     if check_process_halt():
         return None
     img.save(tmp_img)
-    if not sfw.nsfw_image(tmp_img, NSFWDET_MODEL_PATH):
-        if os.path.exists(tmp_img):
-            os.remove(tmp_img)
-        return img
+    return img
     return None
 
 
